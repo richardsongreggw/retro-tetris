@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import './StartScreen.css'
 
-const StartScreen = ({ onStart }) => {
+const StartScreen = ({ onStart, showOnScreenControls, setShowOnScreenControls }) => {
   const [showHighScores, setShowHighScores] = useState(false)
   const [highScores, setHighScores] = useState([])
+  const [hasTouch] = useState('ontouchstart' in window || navigator.maxTouchPoints > 0)
 
   useEffect(() => {
     const stored = localStorage.getItem('tetris-high-scores')
@@ -56,6 +57,23 @@ const StartScreen = ({ onStart }) => {
                 <p>Swipe down: Drop</p>
               </div>
             </div>
+
+            {hasTouch && (
+              <div className="controls-toggle">
+                <label className="toggle-label">
+                  <span>On-Screen Controls</span>
+                  <div className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      checked={showOnScreenControls}
+                      onChange={(e) => setShowOnScreenControls(e.target.checked)}
+                    />
+                    <span className="slider"></span>
+                  </div>
+                </label>
+                <p className="toggle-hint">Show buttons for easier touch control</p>
+              </div>
+            )}
 
             <div className="button-group">
               <button className="start-button" onClick={onStart}>

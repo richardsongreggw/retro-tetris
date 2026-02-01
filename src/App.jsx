@@ -29,6 +29,7 @@ const App = () => {
   const [dropTime, setDropTime] = useState(1000)
   const [gameSpeed, setGameSpeed] = useState(1000)
   const [showTetris, setShowTetris] = useState(false)
+  const [showOnScreenControls, setShowOnScreenControls] = useState(false)
   const dropIntervalRef = useRef(null)
 
   const getRandomPiece = () => {
@@ -223,7 +224,13 @@ const App = () => {
 
   return (
     <div className="app">
-      {gameState === 'start' && <StartScreen onStart={startGame} />}
+      {gameState === 'start' && (
+        <StartScreen
+          onStart={startGame}
+          showOnScreenControls={showOnScreenControls}
+          setShowOnScreenControls={setShowOnScreenControls}
+        />
+      )}
       {(gameState === 'playing' || gameState === 'paused') && (
         <GameBoard
           board={board}
@@ -235,6 +242,7 @@ const App = () => {
           level={level}
           isPaused={gameState === 'paused'}
           showTetris={showTetris}
+          showOnScreenControls={showOnScreenControls}
           onMove={movePiece}
           onRotate={rotatePiece}
           onDrop={hardDrop}

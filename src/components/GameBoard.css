@@ -204,6 +204,67 @@
   transform: scale(0.95);
 }
 
+.on-screen-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 70px);
+  grid-template-rows: repeat(3, 70px);
+  gap: 10px;
+  z-index: 1000;
+}
+
+.control-btn {
+  background: rgba(48, 98, 48, 0.7);
+  border: 3px solid rgba(155, 188, 15, 0.8);
+  color: #9bbc0f;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  touch-action: manipulation;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.control-btn:active {
+  background: rgba(155, 188, 15, 0.9);
+  color: #0f380f;
+  transform: scale(0.95);
+}
+
+.control-left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.control-right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.control-rotate {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.control-down {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.control-drop {
+  grid-column: 1 / 4;
+  grid-row: 3;
+  font-size: 1.5rem;
+}
+
 @media (max-width: 640px) {
   .game-container {
     padding: 1rem;

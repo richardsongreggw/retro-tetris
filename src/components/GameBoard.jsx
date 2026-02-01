@@ -11,6 +11,7 @@ const GameBoard = ({
   level,
   isPaused,
   showTetris,
+  showOnScreenControls,
   onMove,
   onRotate,
   onDrop,
@@ -43,6 +44,7 @@ const GameBoard = ({
   // Handle touch controls
   useEffect(() => {
     const handleTouchStart = (e) => {
+      e.preventDefault() // Prevent page scrolling
       touchStartRef.current = {
         x: e.touches[0].clientX,
         y: e.touches[0].clientY,
@@ -50,7 +52,12 @@ const GameBoard = ({
       }
     }
 
+    const handleTouchMove = (e) => {
+      e.preventDefault() // Prevent page scrolling during swipe
+    }
+
     const handleTouchEnd = (e) => {
+      e.preventDefault() // Prevent page scrolling
       if (!touchStartRef.current) return
 
       const touchEnd = {
@@ -86,11 +93,13 @@ const GameBoard = ({
 
     const board = boardRef.current
     if (board) {
-      board.addEventListener('touchstart', handleTouchStart)
-      board.addEventListener('touchend', handleTouchEnd)
+      board.addEventListener('touchstart', handleTouchStart, { passive: false })
+      board.addEventListener('touchmove', handleTouchMove, { passive: false })
+      board.addEventListener('touchend', handleTouchEnd, { passive: false })
 
       return () => {
         board.removeEventListener('touchstart', handleTouchStart)
+        board.removeEventListener('touchmove', handleTouchMove)
         board.removeEventListener('touchend', handleTouchEnd)
       }
     }
@@ -176,6 +185,26 @@ const GameBoard = ({
           </button>
         </div>
       </div>
+
+      {showOnScreenControls && (
+        <div className="on-screen-controls">
+          <button className="control-btn control-left" onClick={() => onMove('left')}>
+            ◄
+          </button>
+          <button className="control-btn control-right" onClick={() => onMove('right')}>
+            ►
+          </button>
+          <button className="control-btn control-rotate" onClick={onRotate}>
+            ↻
+          </button>
+          <button className="control-btn control-down" onClick={() => onMove('down')}>
+            ▼
+          </button>
+          <button className="control-btn control-drop" onClick={onDrop}>
+            ▼▼
+          </button>
+        </div>
+      )}
     </div>
   )
 }
