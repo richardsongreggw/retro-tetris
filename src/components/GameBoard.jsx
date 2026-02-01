@@ -109,19 +109,30 @@ const GameBoard = ({
   const displayBoard = renderBoard()
 
   // Handle down button hold for acceleration
-  const handleDownButtonStart = () => {
+  const handleDownButtonStart = (e) => {
+    e.preventDefault()
     onMove('down') // Immediate first move
     downButtonIntervalRef.current = setInterval(() => {
       onMove('down')
-    }, 50) // Fast repeat while held
+    }, 100) // Adjusted timing
   }
 
-  const handleDownButtonEnd = () => {
+  const handleDownButtonEnd = (e) => {
+    if (e) e.preventDefault()
     if (downButtonIntervalRef.current) {
       clearInterval(downButtonIntervalRef.current)
       downButtonIntervalRef.current = null
     }
   }
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (downButtonIntervalRef.current) {
+        clearInterval(downButtonIntervalRef.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="game-container">
@@ -220,6 +231,8 @@ const GameBoard = ({
             onMouseLeave={handleDownButtonEnd}
             onTouchStart={handleDownButtonStart}
             onTouchEnd={handleDownButtonEnd}
+            onTouchCancel={handleDownButtonEnd}
+            onContextMenu={(e) => e.preventDefault()}
           >
             ▼
           </button>

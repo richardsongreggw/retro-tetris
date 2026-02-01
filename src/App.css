@@ -11,3 +11,11 @@
 * {
   box-sizing: border-box;
 }
+
+@media (max-width: 640px) {
+  .app {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+}
