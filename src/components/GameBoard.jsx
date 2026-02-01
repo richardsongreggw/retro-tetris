@@ -20,6 +20,7 @@ const GameBoard = ({
   const touchStartRef = useRef(null)
   const boardRef = useRef(null)
   const downButtonIntervalRef = useRef(null)
+  const lastDownTapRef = useRef(0)
 
   // Render board with current piece
   const renderBoard = () => {
@@ -108,13 +109,33 @@ const GameBoard = ({
 
   const displayBoard = renderBoard()
 
-  // Handle down button hold for acceleration
+  // Handle down button: double-tap for hard drop, hold for soft drop
   const handleDownButtonStart = (e) => {
     e.preventDefault()
+
+    const now = Date.now()
+    const timeSinceLastTap = now - lastDownTapRef.current
+
+    // Double-tap detected (within 300ms)
+    if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
+      // Clear any ongoing interval
+      if (downButtonIntervalRef.current) {
+        clearInterval(downButtonIntervalRef.current)
+        downButtonIntervalRef.current = null
+      }
+      onDrop() // Hard drop
+      lastDownTapRef.current = 0 // Reset
+      return
+    }
+
+    // Single tap/hold
+    lastDownTapRef.current = now
     onMove('down') // Immediate first move
+
+    // Set up hold interval
     downButtonIntervalRef.current = setInterval(() => {
       onMove('down')
-    }, 100) // Adjusted timing
+    }, 100)
   }
 
   const handleDownButtonEnd = (e) => {

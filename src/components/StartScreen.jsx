@@ -54,7 +54,8 @@ const StartScreen = ({ onStart, showOnScreenControls, setShowOnScreenControls })
               <div className="touch-controls">
                 <p>Swipe left/right: Move</p>
                 <p>Tap: Rotate</p>
-                <p>Swipe down: Drop</p>
+                <p>Swipe down fast: Hard drop</p>
+                <p>D-pad down: Double-tap for hard drop</p>
               </div>
             </div>
 
