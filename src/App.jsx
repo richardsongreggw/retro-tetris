@@ -29,7 +29,9 @@ const App = () => {
   const [dropTime, setDropTime] = useState(1000)
   const [gameSpeed, setGameSpeed] = useState(1000)
   const [showTetris, setShowTetris] = useState(false)
-  const [showOnScreenControls, setShowOnScreenControls] = useState(false)
+  const [showOnScreenControls, setShowOnScreenControls] = useState(
+    'ontouchstart' in window || navigator.maxTouchPoints > 0
+  )
   const dropIntervalRef = useRef(null)
 
   const getRandomPiece = () => {

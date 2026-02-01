@@ -77,7 +77,7 @@ const StartScreen = ({ onStart, showOnScreenControls, setShowOnScreenControls })
 
             <div className="button-group">
               <button className="start-button" onClick={onStart}>
-                Press SPACE or Click to Start
+                {hasTouch ? 'Tap to Start' : 'Press SPACE or Click to Start'}
               </button>
               <button className="high-scores-button" onClick={() => setShowHighScores(true)}>
                 View High Scores
