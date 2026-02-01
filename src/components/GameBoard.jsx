@@ -19,6 +19,7 @@ const GameBoard = ({
 }) => {
   const touchStartRef = useRef(null)
   const boardRef = useRef(null)
+  const downButtonIntervalRef = useRef(null)
 
   // Render board with current piece
   const renderBoard = () => {
@@ -106,6 +107,21 @@ const GameBoard = ({
   }, [onMove, onRotate, onDrop])
 
   const displayBoard = renderBoard()
+
+  // Handle down button hold for acceleration
+  const handleDownButtonStart = () => {
+    onMove('down') // Immediate first move
+    downButtonIntervalRef.current = setInterval(() => {
+      onMove('down')
+    }, 50) // Fast repeat while held
+  }
+
+  const handleDownButtonEnd = () => {
+    if (downButtonIntervalRef.current) {
+      clearInterval(downButtonIntervalRef.current)
+      downButtonIntervalRef.current = null
+    }
+  }
 
   return (
     <div className="game-container">
@@ -197,11 +213,15 @@ const GameBoard = ({
           <button className="control-btn control-rotate" onClick={onRotate}>
             ↻
           </button>
-          <button className="control-btn control-down" onClick={() => onMove('down')}>
+          <button
+            className="control-btn control-down"
+            onMouseDown={handleDownButtonStart}
+            onMouseUp={handleDownButtonEnd}
+            onMouseLeave={handleDownButtonEnd}
+            onTouchStart={handleDownButtonStart}
+            onTouchEnd={handleDownButtonEnd}
+          >
             ▼
-          </button>
-          <button className="control-btn control-drop" onClick={onDrop}>
-            ▼▼
           </button>
         </div>
       )}

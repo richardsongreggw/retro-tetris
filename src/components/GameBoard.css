@@ -211,7 +211,7 @@
   transform: translateX(-50%);
   display: grid;
   grid-template-columns: repeat(3, 70px);
-  grid-template-rows: repeat(3, 70px);
+  grid-template-rows: repeat(2, 70px);
   gap: 10px;
   z-index: 1000;
 }
@@ -241,12 +241,12 @@
 
 .control-left {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1;
 }
 
 .control-right {
   grid-column: 3;
-  grid-row: 2;
+  grid-row: 1;
 }
 
 .control-rotate {
@@ -255,14 +255,9 @@
 }
 
 .control-down {
-  grid-column: 2;
-  grid-row: 2;
-}
-
-.control-drop {
   grid-column: 1 / 4;
-  grid-row: 3;
-  font-size: 1.5rem;
+  grid-row: 2;
+  font-size: 1.8rem;
 }
 
 @media (max-width: 640px) {
