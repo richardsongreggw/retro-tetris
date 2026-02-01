@@ -20,7 +20,6 @@ const GameBoard = ({
   const touchStartRef = useRef(null)
   const boardRef = useRef(null)
   const downButtonIntervalRef = useRef(null)
-  const lastDownTapRef = useRef(0)
 
   // Render board with current piece
   const renderBoard = () => {
@@ -109,30 +108,12 @@ const GameBoard = ({
 
   const displayBoard = renderBoard()
 
-  // Handle down button: double-tap for hard drop, hold for soft drop
+  // Handle down button: tap/hold for soft drop (like original Game Boy)
   const handleDownButtonStart = (e) => {
     e.preventDefault()
-
-    const now = Date.now()
-    const timeSinceLastTap = now - lastDownTapRef.current
-
-    // Double-tap detected (within 300ms)
-    if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
-      // Clear any ongoing interval
-      if (downButtonIntervalRef.current) {
-        clearInterval(downButtonIntervalRef.current)
-        downButtonIntervalRef.current = null
-      }
-      onDrop() // Hard drop
-      lastDownTapRef.current = 0 // Reset
-      return
-    }
-
-    // Single tap/hold
-    lastDownTapRef.current = now
     onMove('down') // Immediate first move
 
-    // Set up hold interval
+    // Set up hold interval for continuous soft drop
     downButtonIntervalRef.current = setInterval(() => {
       onMove('down')
     }, 100)

@@ -55,7 +55,7 @@ const StartScreen = ({ onStart, showOnScreenControls, setShowOnScreenControls })
                 <p>Swipe left/right: Move</p>
                 <p>Tap: Rotate</p>
                 <p>Swipe down fast: Hard drop</p>
-                <p>D-pad down: Double-tap for hard drop</p>
+                <p>D-pad down: Hold for soft drop</p>
               </div>
             </div>
 
