@@ -101,10 +101,10 @@ const App = () => {
     }
     setPosition({ ...position, y: newY })
     playHardDropSound()
-    mergePieceToBoard()
+    mergePieceToBoard(newY)
   }, [gameState, currentPiece, board, position])
 
-  const mergePieceToBoard = () => {
+  const mergePieceToBoard = (dropY = null) => {
     playLockSound() // Piece locks into place
 
     const newBoard = board.map(row => [...row])
@@ -112,7 +112,7 @@ const App = () => {
     currentPiece.shape.forEach((row, y) => {
       row.forEach((cell, x) => {
         if (cell !== 0) {
-          const boardY = position.y + y
+          const boardY = (dropY ?? position.y) + y
           const boardX = position.x + x
           if (boardY >= 0 && boardY < 20 && boardX >= 0 && boardX < 10) {
             newBoard[boardY][boardX] = currentPiece.color
